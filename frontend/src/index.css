@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#0B0F19] text-slate-100 selection:bg-neonPink/30 selection:text-white;
+  }
+}
+
+/* Glassmorphism utilities */
+.glass-panel {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-panel-glow {
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 42, 122, 0.2);
+  box-shadow: 0 0 25px rgba(255, 42, 122, 0.08);
+}
+
+/* Glowing text and lines */
+.text-glow-pink {
+  text-shadow: 0 0 10px rgba(255, 42, 122, 0.5), 0 0 20px rgba(255, 42, 122, 0.2);
+}
+
+.glow-border-pink {
+  box-shadow: 0 0 15px rgba(255, 42, 122, 0.25);
+  border-color: rgba(255, 42, 122, 0.5);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0F19;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1F2937;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FF2A7A;
+}
+
+/* Timeline Custom line logic */
+.timeline-line::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 0;
+  left: 15px;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.08);
+}
