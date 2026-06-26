@@ -1,6 +1,5 @@
 import os
 import json
-from datetime import datetime
 
 # Path to the IDE's local brain directory
 APP_DATA_DIR = r"C:\Users\Vidhya G Nadh\.gemini\antigravity-ide\brain"
@@ -11,6 +10,11 @@ def extract_prompts():
         print(f"Error: Could not locate AppData directory at: {APP_DATA_DIR}")
         return
 
+    # Get current working directory to filter only prompts for this project
+    current_project_dir = os.getcwd().lower()
+    project_folder_name = os.path.basename(os.getcwd())
+    print(f"Filtering prompts for project directory: '{current_project_dir}' ({project_folder_name})...")
+
     sessions_data = []
 
     # Iterate through all conversation folders
@@ -19,23 +23,25 @@ def extract_prompts():
         if not os.path.isdir(conv_dir):
             continue
         
-        # Check for both full and truncated transcripts
         transcript_path = os.path.join(conv_dir, ".system_generated", "logs", "transcript.jsonl")
         if not os.path.exists(transcript_path):
             continue
             
-        print(f"Reading session logs for ID: {conv_id}...")
         session_prompts = []
+        is_current_project = False
         
         try:
             with open(transcript_path, "r", encoding="utf-8") as f:
-                for line in f:
+                lines = f.readlines()
+                for line in lines:
+                    # Check if this log references the current project's workspace folder
+                    if current_project_dir in line.lower() or project_folder_name.lower() in line.lower():
+                        is_current_project = True
+                        
                     try:
                         step = json.loads(line)
-                        # Filter for user inputs
                         if step.get("type") == "USER_INPUT":
                             prompt_text = step.get("content", "")
-                            # Format time nicely if present
                             timestamp = step.get("timestamp", "Unknown Time")
                             session_prompts.append({
                                 "time": timestamp,
@@ -46,16 +52,20 @@ def extract_prompts():
         except Exception as e:
             print(f"  Error reading session {conv_id}: {e}")
             
-        if session_prompts:
+        if is_current_project and session_prompts:
             sessions_data.append({
                 "session_id": conv_id,
                 "prompts": session_prompts
             })
 
+    if not sessions_data:
+        print("No prompts found matching this project.")
+        return
+
     # Write prompts history to Markdown file
     with open(OUTPUT_FILE, "w", encoding="utf-8") as out:
-        out.write("# Complete Project Conversation Prompt History\n\n")
-        out.write("This document compiles the chronological history of all user request prompts from all sessions of this project, parsed directly from the local IDE logs.\n\n")
+        out.write(f"# Complete Project Conversation Prompt History - {project_folder_name}\n\n")
+        out.write(f"This document compiles the chronological history of all user request prompts from all sessions of the **{project_folder_name}** project workspace.\n\n")
         
         for i, session in enumerate(sessions_data, 1):
             out.write(f"## Session {i} (ID: {session['session_id']})\n\n")
@@ -65,7 +75,7 @@ def extract_prompts():
                 out.write(f"{req['prompt'].strip()}\n")
                 out.write("```\n\n")
                 
-    print(f"\nSuccess! Extracted prompt logs and saved them to {OUTPUT_FILE}")
+    print(f"\nSuccess! Extracted {len(sessions_data)} sessions for this project. Saved to {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     extract_prompts()
