@@ -29,9 +29,25 @@
   text-shadow: 0 0 10px rgba(255, 42, 122, 0.5), 0 0 20px rgba(255, 42, 122, 0.2);
 }
 
+.text-glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 255, 224, 0.6), 0 0 20px rgba(0, 255, 224, 0.3);
+}
+
 .glow-border-pink {
   box-shadow: 0 0 15px rgba(255, 42, 122, 0.25);
   border-color: rgba(255, 42, 122, 0.5);
+}
+
+.shadow-cyanGlow {
+  box-shadow: 0 0 25px rgba(0, 255, 224, 0.2), inset 0 0 15px rgba(0, 255, 224, 0.05);
+}
+
+.shadow-pinkGlow {
+  box-shadow: 0 0 30px rgba(255, 42, 122, 0.25), inset 0 0 15px rgba(255, 42, 122, 0.05);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 15px rgba(255, 42, 122, 0.4);
 }
 
 /* Custom Scrollbar */
@@ -63,3 +79,49 @@
   width: 2px;
   background: rgba(255, 255, 255, 0.08);
 }
+
+/* Ambient gradient background */
+.bg-radial-gradient {
+  background-image: radial-gradient(circle at 50% 50%, rgba(255, 42, 122, 0.08) 0%, rgba(112, 0, 255, 0.05) 50%, transparent 100%);
+}
+
+.animate-pulse-slow {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.15);
+  }
+}
+
+/* Animated Story Ring */
+.story-ring-active {
+  background: linear-gradient(45deg, #FF2A7A, #00FFE0, #7000FF);
+  padding: 2px;
+  animation: rotateGradient 6s linear infinite;
+}
+
+@keyframes rotateGradient {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+

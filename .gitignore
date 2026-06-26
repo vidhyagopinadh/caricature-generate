@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+dist/
+/frontend/dist/
+/frontend/node_modules/
+
+# Python Virtual Environment and Cache
+venv/
+/backend/venv/
+*.pyc
+__pycache__/
+/backend/app/__pycache__/
+.pytest_cache/
+.cache/
+
+# Model Weights / Large Binaries
+*.onnx
+*.onnx.*
+
+# Scratch Directory
+backend/scratch/
+/backend/scratch/
+
+# Database Files
+*.db
+*.sqlite3
+/backend/caricatures.db
+caricatures.db
+
+# Environment Files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+/backend/.env
+
+# System / Editor files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
